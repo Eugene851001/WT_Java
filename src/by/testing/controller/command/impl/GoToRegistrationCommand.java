@@ -1,0 +1,27 @@
+package by.testing.controller.command.impl;
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import by.testing.controller.command.*;
+
+public class GoToRegistrationCommand implements Command{
+
+	@Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) {
+		RequestDispatcher dispathcer = null;
+		dispathcer = request.getRequestDispatcher("\\WEB-INF\\jsp\\registration.jsp");
+		try {
+			dispathcer.forward(request, response);
+		} catch (ServletException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+}
