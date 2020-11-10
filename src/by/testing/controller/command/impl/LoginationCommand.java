@@ -37,21 +37,25 @@ public class LoginationCommand implements Command {
 		}
 		if(user != null) {
 			HttpSession session = request.getSession(true);
+			Test[] tests = null;
 			if(user.getUserType().equals("student")) {
-				Test[] tests = null;
 				try{
 					tests = testService.getAllTests();
 				}
 				catch(ServiceException e) {
 					
 				}
-				for(int i = 0; i < tests.length; i++) {
-					System.out.println(tests[i].getName());
-				}
 				session.setAttribute("tests", Arrays.asList(tests));
 				dispatcher = request.getRequestDispatcher("\\WEB-INF\\jsp\\main_student.jsp");
 			}
 			else {
+				try {
+					tests = testService.getTestByUserId(user.getId());
+				} catch (ServiceException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				session.setAttribute("tests", Arrays.asList(tests));
 				dispatcher = request.getRequestDispatcher("\\WEB-INF\\jsp\\main_tutor.jsp");
 			}
 			session.setAttribute("user_type", user.getUserType());

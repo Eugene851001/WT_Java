@@ -75,7 +75,7 @@ public class QuestionDAOImpl implements QuestionDAO {
 	         }
 	         
 	         Statement stm = conn.createStatement();
-	         String query = "INSERT INTO questions VALUE(NULL, '" + question.getContent() + "', " + 3 + ")";
+	         String query = "INSERT INTO questions VALUE(NULL, '" + question.getContent() + "', " + test.getId() + ")";
 	         System.out.println(query);
 	         stm.execute(query);
 	         

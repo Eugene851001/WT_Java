@@ -36,19 +36,34 @@ public class AddTestCommand implements Command{
 		
 		ServiceProvider provider = ServiceProvider.getInstance();
 		TestService testService = provider.getTestService();
+		QuestionService questionService = provider.getQuestionService();
 		
-		Test test = new Test(-1, testName, 1, user.getId());
-		try {
-			int testId = testService.addTest(test);
-			test.setId(testId);
-			session.setAttribute("test", test);
-			System.out.println("test id: " + test.getId());
-		}
-		catch(ServiceException e) {
-			System.out.println(e.getMessage());
+		Test test = (Test)session.getAttribute("test");
+		if(test == null) {
+			test = new Test(-1, testName, 1, user.getId());
+			try {
+				int testId = testService.addTest(test);
+				test.setId(testId);
+				Test[] tests = testService.getTestByUserId(user.getId());
+				session.setAttribute("tests", tests);
+			}
+			catch(ServiceException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		
-		dispatcher = request.getRequestDispatcher("\\WEB-INF\\jsp\\test_constructor.jsp");
+		Question[] questions = (Question[])session.getAttribute("questions");
+		for(int i  = 0; i < questions.length; i++) {
+			try {
+				questionService.addQuestion(questions[i], test);
+			}
+			catch (ServiceException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		
+		session.removeAttribute("test");
+		dispatcher = request.getRequestDispatcher("\\WEB-INF\\jsp\\main_tutor.jsp");
 		try {
 			dispatcher.forward(request, response);
 		} catch (ServletException | IOException e) {

@@ -9,15 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import by.testing.beans.Question;
+import by.testing.beans.*;
 import by.testing.controller.command.*;
+import by.testing.service.*;
 
-public class AddQuestionCommand  implements Command{
+public class EditTestCommand implements Command{
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(false);
-		RequestDispatcher dispatcher;
+		RequestDispatcher dispatcher = null;
 		if(session == null) {
 			dispatcher = request.getRequestDispatcher("\\index.jsp");
 			try {
@@ -25,32 +26,32 @@ public class AddQuestionCommand  implements Command{
 			} catch (ServletException | IOException e) {
 				e.printStackTrace();
 			}
-			return;
 		}
-	
 		
 		Map<String, String[]> parameters = request.getParameterMap();
-		String questionContent = parameters.get("question_content")[0];
+		int testId = Integer.parseInt(parameters.get("test_id")[0]);
+
+		ServiceProvider provider = ServiceProvider.getInstance();
+		QuestionService questionService = provider.getQuestionService();
+		TestService testService = provider.getTestService();
 		
-		Question question = new Question();
-		question.setContent(questionContent);
-		
-		Question[] questions = (Question[])session.getAttribute("questions");
-		if(questions == null) {
-			System.out.println("new list");
-			questions = new Question[] {question};
-		} else {
-			System.out.println("old list");
-			Question[] newQuestions = new Question[questions.length + 1];
-			for(int i  = 0; i < questions.length; i++) {
-				newQuestions[i] = questions[i];
-			}
-			newQuestions[questions.length] = question;
-			questions = newQuestions;
+		Question[] questions = null;
+		Test test = null;
+		try {
+			test = testService.getTestById(testId);
+		} catch (ServiceException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		
-		session.setAttribute("questions", questions);
+		try {
+			questions = questionService.getQuestionsForTest(test);
+		} catch(ServiceException e) {
+			System.out.println(e.getMessage());
+		}
 		
+		session.setAttribute("test", test);
+		session.setAttribute("questions", questions);
 		dispatcher = request.getRequestDispatcher("\\WEB-INF\\jsp\\test_constructor.jsp");
 		try {
 			dispatcher.forward(request, response);

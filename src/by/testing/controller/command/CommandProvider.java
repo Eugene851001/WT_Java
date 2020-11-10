@@ -19,6 +19,7 @@ public class CommandProvider {
 		commands.put("go_to_testconstructor", new GoToTestConstructorCommand());
 		commands.put("go_to_question_constructor", new GoToQuestionConstructorCommand());
 		commands.put("add_question", new AddQuestionCommand());
+		commands.put("edit_test", new EditTestCommand());
 	}
 	
 	public Command getCommand(String commandName) {

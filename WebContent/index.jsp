@@ -10,11 +10,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-	Я новенький
+	Регистрация 
 	<a href="controller?command=go_to_registration">
 		Registration
 	</a> </br>
-	Я уже смешарик<a href = "controller?command=go_to_logination">
+	Авторизация <a href = "controller?command=go_to_logination">
 		Log in
 	</a>
 	

@@ -50,4 +50,17 @@ public class TestServiceImpl implements TestService {
 		return tests;
 	}
 
+	@Override
+	public Test getTestById(int testId) throws ServiceException {
+		Test result = null;
+		DAOProvider provider =DAOProvider.getInstance();
+		TestDAO testDAO = provider.getTestDAO();
+		try {
+			result = testDAO.getTestById(testId);
+		} catch(DAOException e) {
+			throw new ServiceException(e.getMessage());
+		}
+		return result;
+	}
+
 }

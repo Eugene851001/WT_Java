@@ -18,6 +18,18 @@
 			<h2> 
 				Hello, <c:out value="${sessionScope.user.name }"/> 
 			</h2>
+			<table>
+				<tr>
+					<td>Test name</td>
+				</tr>
+				<c:set var="list" value="${sessionScope.tests}"/>
+				<c:forEach var="test" items="${list}">
+					<tr>
+						<td><c:out value="${test.name}"/></td>
+						<td><a href="controller?command=edit_test&test_id=<c:out value="${test.id}"/>">Edit test</a></td>
+					</tr>
+				</c:forEach> 
+			</table>
 			<p><a href="controller?command=go_to_testconstructor">Add test</a></p>
 		</div>
 		<form action="controller?command=sign_out" method="post">

@@ -1,7 +1,6 @@
 package by.testing.controller;
 
 import java.io.IOException;
-import java.util.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,13 +41,10 @@ public class Controller extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		Map<String, String[]> parameters = request.getParameterMap();
-		Set<String> keys = parameters.keySet();
-		Iterator<String> iterator = keys.iterator();
-		while(iterator.hasNext()) {
-			System.out.println(iterator.next());
-		}
 		String commandName = request.getParameter("command");
+		if(commandName == null) {
+			return;
+		}
 		CommandProvider provider = new CommandProvider();
 		try {
 			provider.getCommand(commandName).execute(request, response);

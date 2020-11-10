@@ -14,20 +14,20 @@
 
 
 
-		<div align = "center">  
+		<div align="center">  
 			<h2> 
 				Hello, <c:out value="${sessionScope.user.name }"/> 
 			</h2>
+			<table>
+				<tr>
+					<td>Test name</td>
+				</tr>
+				<c:set var="list" value="${sessionScope.tests}"/>
+				<c:forEach var="test" items="${list}">
+					<tr><td><c:out value="${test.name}"/></td></tr>
+				</c:forEach> 
+			</table>
 		</div>
-		<table>
-			<tr>
-				<td>Test name</td>
-			</tr>
-			<c:set var="list" value="${sessionScope.tests}"/>
-			<c:forEach var="test" items="${list}">
-				<tr><td><c:out value="${test.name}"/></td></tr>
-			</c:forEach> 
-		</table>
 		<form action="controller?command=sign_out" method="post">
 			<input type="submit" name="submit" value="Sign out">
 		</form>
