@@ -13,6 +13,8 @@ import by.testing.controller.command.*;
 import by.testing.service.*;
 import by.testing.beans.*;
 
+import by.testing.constants.*;
+
 public class AddTestCommand implements Command{
 
 	@Override
@@ -20,7 +22,7 @@ public class AddTestCommand implements Command{
 		HttpSession session = request.getSession(false);
 		RequestDispatcher dispatcher;
 		if(session == null) {
-			dispatcher = request.getRequestDispatcher("\\index.jsp");
+			dispatcher = request.getRequestDispatcher(PageConstants.INDEX);
 			try {
 				dispatcher.forward(request, response);
 			} catch (ServletException | IOException e) {
@@ -52,7 +54,7 @@ public class AddTestCommand implements Command{
 			}
 		}
 		
-		Question[] questions = (Question[])session.getAttribute("questions");
+		Question[] questions = (Question[])session.getAttribute(SessionConstants.QUESTIONS);
 		for(int i  = 0; i < questions.length; i++) {
 			try {
 				questionService.addQuestion(questions[i], test);
@@ -63,7 +65,8 @@ public class AddTestCommand implements Command{
 		}
 		
 		session.removeAttribute("test");
-		dispatcher = request.getRequestDispatcher("\\WEB-INF\\jsp\\main_tutor.jsp");
+		session.removeAttribute(SessionConstants.QUESTIONS);
+		dispatcher = request.getRequestDispatcher(PageConstants.TUTOR_MAIN_PAGE);
 		try {
 			dispatcher.forward(request, response);
 		} catch (ServletException | IOException e) {

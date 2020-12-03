@@ -5,8 +5,12 @@ import by.testing.service.*;
 
 import by.testing.dao.*;
 
+import org.apache.log4j.*;
+
 public class TestServiceImpl implements TestService {
 
+	private static Logger logger = Logger.getLogger(TestServiceImpl.class);
+	
 	@Override
 	public Test[] getTestByUserId(int userId) throws ServiceException {
 		DAOProvider provider = DAOProvider.getInstance();
@@ -16,6 +20,7 @@ public class TestServiceImpl implements TestService {
 			tests = testDAO.getTestsByUserID(userId);
 		}
 		catch(DAOException e) {
+			logger.error("DAO exception while getting test by user id");
 			throw new ServiceException(e.getMessage());
 		}
 		return tests;
@@ -31,6 +36,7 @@ public class TestServiceImpl implements TestService {
 			testId = testDAO.addTest(test);
 		}
 		catch(DAOException e) {
+			logger.error("DAO excpetion while ");
 			throw new ServiceException(e.getMessage());
 		}
 		return testId;
@@ -45,6 +51,7 @@ public class TestServiceImpl implements TestService {
 			tests = testDAO.getAllTests();
 		}
 		catch(DAOException e){
+			logger.error("DAO exception while getting tests");
 			throw new ServiceException(e.getMessage());
 		}
 		return tests;
@@ -61,6 +68,19 @@ public class TestServiceImpl implements TestService {
 			throw new ServiceException(e.getMessage());
 		}
 		return result;
+	}
+
+	@Override
+	public boolean deleteTest(int testId) throws ServiceException {
+		DAOProvider provider=  DAOProvider.getInstance();
+		TestDAO testDAO = provider.getTestDAO();
+		try {
+			testDAO.deleteTest(testId);
+		} catch (DAOException e) {
+			logger.error("DAOException while deleting test");
+			throw new ServiceException(e.getMessage());
+		}
+		return false;
 	}
 
 }

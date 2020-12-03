@@ -12,14 +12,17 @@ import javax.servlet.http.HttpSession;
 import by.testing.beans.Question;
 import by.testing.controller.command.*;
 
-public class AddQuestionCommand  implements Command{
+import by.testing.constants.*;
 
+public class AddQuestionCommand  implements Command{
+	
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(false);
 		RequestDispatcher dispatcher;
 		if(session == null) {
-			dispatcher = request.getRequestDispatcher("\\index.jsp");
+			dispatcher = request.getRequestDispatcher(PageConstants.INDEX);
 			try {
 				dispatcher.forward(request, response);
 			} catch (ServletException | IOException e) {
@@ -35,7 +38,7 @@ public class AddQuestionCommand  implements Command{
 		Question question = new Question();
 		question.setContent(questionContent);
 		
-		Question[] questions = (Question[])session.getAttribute("questions");
+		Question[] questions = (Question[])session.getAttribute(SessionConstants.QUESTIONS);
 		if(questions == null) {
 			System.out.println("new list");
 			questions = new Question[] {question};
@@ -49,13 +52,13 @@ public class AddQuestionCommand  implements Command{
 			questions = newQuestions;
 		}
 		
-		session.setAttribute("questions", questions);
+		session.setAttribute(SessionConstants.QUESTIONS, questions);
 		
-		dispatcher = request.getRequestDispatcher("\\WEB-INF\\jsp\\test_constructor.jsp");
+		dispatcher = request.getRequestDispatcher(PageConstants.TEST_CONSTRUCTOR_PAGE);
 		try {
 			dispatcher.forward(request, response);
 		} catch (ServletException | IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	}

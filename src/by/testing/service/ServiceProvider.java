@@ -2,6 +2,7 @@ package by.testing.service;
 
 import by.testing.service.impl.*;
 
+import org.apache.log4j.*;
 public class ServiceProvider {
 
 	private static ServiceProvider instance = null;
@@ -11,6 +12,7 @@ public class ServiceProvider {
 	private QuestionService questionService = null;
 	
 	private ServiceProvider() {
+		BasicConfigurator.configure();
 		clientService = new ClientServiceImpl();
 		testService = new TestServiceImpl(); 
 		questionService = new QuestionServiceImpl();

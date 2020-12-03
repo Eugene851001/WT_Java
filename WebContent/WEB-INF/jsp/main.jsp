@@ -12,8 +12,6 @@
 	<body>
 		<a href="controller?command=go_to_logination">log in</a>
 
-
-
 		<div align = "center">  
 			<h2> 
 				Hello, <c:out value="${requestScope.user.name }"/> 

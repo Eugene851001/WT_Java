@@ -7,4 +7,5 @@ public interface TestDAO {
 	Test[] getAllTests() throws DAOException;
 	Test getTestById(int testId) throws DAOException;
 	int addTest(Test test) throws DAOException;
+	boolean deleteTest(int testId) throws DAOException;
 }

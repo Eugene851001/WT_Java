@@ -7,4 +7,5 @@ public interface TestService {
 	Test[] getAllTests() throws ServiceException;
 	Test getTestById(int testId) throws ServiceException;
 	int addTest(Test test) throws ServiceException;
+	boolean deleteTest(int testId) throws ServiceException;
 }

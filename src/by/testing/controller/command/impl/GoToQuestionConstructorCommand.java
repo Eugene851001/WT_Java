@@ -9,11 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.testing.controller.command.*;
 
+import by.testing.constants.*;
+
 public class GoToQuestionConstructorCommand implements Command{
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("\\WEB-INF\\jsp\\question_constructor.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher(PageConstants.QUESTION_CONSTRUCTOR_PAGE);
 		try {
 			dispatcher.forward(request, response);
 		} catch (ServletException | IOException e) {

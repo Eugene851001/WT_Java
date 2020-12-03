@@ -9,9 +9,12 @@ import java.util.ArrayList;
 
 import by.testing.beans.*;
 
+import org.apache.log4j.*;
+
 public class QuestionDAOImpl implements QuestionDAO {
 
 	private ConnectionPool connectionPool;
+	private static Logger logger = Logger.getLogger(QuestionDAOImpl.class);
 	
 	public QuestionDAOImpl() {
 		connectionPool = ConnectionPool.getInstance();
@@ -28,6 +31,7 @@ public class QuestionDAOImpl implements QuestionDAO {
 			conn = connectionPool.getConnection();
 	         
 	         if(conn == null) {
+	        	 logger.error("Can not get connection");
 	        	 throw new DAOException("Connection failed...");
 	         }
 	         
@@ -46,6 +50,7 @@ public class QuestionDAOImpl implements QuestionDAO {
 	         
 		}
 		catch(Exception e) {
+			logger.error("Error while executing query");
 			throw new DAOException("Connection failed...");
 		}
 		finally {
@@ -53,7 +58,7 @@ public class QuestionDAOImpl implements QuestionDAO {
 				connectionPool.closeConnection(conn);
 			}
 			catch(Exception ex) {
-				
+				logger.error("Exception while closing connection");
 			}
 		}
 		result = new Question[questions.size()];
@@ -71,6 +76,7 @@ public class QuestionDAOImpl implements QuestionDAO {
 			conn = connectionPool.getConnection();
 	         
 	         if(conn == null) {
+	        	 logger.error("Can not get connection");
 	        	 throw new DAOException("Connection failed...");
 	         }
 	         
@@ -82,6 +88,7 @@ public class QuestionDAOImpl implements QuestionDAO {
 	         
 		}
 		catch(Exception e) {
+			logger.error("Error while executing query");
 			throw new DAOException("Connection failed...");
 		}
 		finally {
@@ -89,7 +96,7 @@ public class QuestionDAOImpl implements QuestionDAO {
 				connectionPool.closeConnection(conn);
 			}
 			catch(Exception ex) {
-				
+				logger.error("Exception while closing connection");
 			}
 		}
 		

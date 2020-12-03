@@ -14,6 +14,8 @@ import by.testing.service.*;
 
 import by.testing.beans.*;
 
+import by.testing.constants.*;
+
 public class RegistrationCommand implements Command {
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -53,10 +55,10 @@ public class RegistrationCommand implements Command {
 				System.out.println(e.getMessage());
 			}
 			if(user.getUserType().equals("tutor")) {
-				dispatcher = request.getRequestDispatcher("\\WEB-INF\\jsp\\main_tutor.jsp");
+				dispatcher = request.getRequestDispatcher(PageConstants.TUTOR_MAIN_PAGE);
 			}
 			else {
-				dispatcher = request.getRequestDispatcher("\\WEB-INF\\jsp\\main_student.jsp");
+				dispatcher = request.getRequestDispatcher(PageConstants.STUDENT_MAIN_PAGE);
 			}
 			
 			HttpSession session = request.getSession();

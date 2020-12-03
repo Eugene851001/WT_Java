@@ -9,12 +9,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.testing.controller.command.*;
 
+import by.testing.constants.*;
+
 public class GoToTestConstructorCommand implements Command {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		RequestDispatcher dispatcher = null;
-		dispatcher = request.getRequestDispatcher("WEB-INF\\jsp\\test_constructor.jsp");
+		dispatcher = request.getRequestDispatcher(PageConstants.TEST_CONSTRUCTOR_PAGE);
 		try {
 			dispatcher.forward(request, response);
 		} catch (ServletException | IOException e) {

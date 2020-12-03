@@ -8,9 +8,13 @@ import java.util.ArrayList;
 import by.testing.beans.Test;
 import by.testing.dao.*;
 
+import org.apache.log4j.*;
+
 public class TestDAOImpl implements TestDAO {
-	
+
 	private ConnectionPool connectionPool; 
+	private static Logger logger = Logger.getLogger(TestDAOImpl.class);
+	
 	
 	public TestDAOImpl() {
 		connectionPool = ConnectionPool.getInstance();
@@ -24,6 +28,7 @@ public class TestDAOImpl implements TestDAO {
 			conn = connectionPool.getConnection();
 	         
 	         if(conn == null) {
+	        	 logger.error("Can not get connection");
 	        	 throw new DAOException("Connection failed...");
 	         }
 	         
@@ -41,6 +46,7 @@ public class TestDAOImpl implements TestDAO {
 	         }
 		}
 		catch(Exception e) {
+			logger.error("Error while executin query");
 			throw new DAOException("Connection failed...");
 		}
 		finally {
@@ -48,7 +54,7 @@ public class TestDAOImpl implements TestDAO {
 				connectionPool.closeConnection(conn);
 			}
 			catch(Exception ex) {
-				
+				logger.error("Exception while closing connection");
 			}
 		}
 		Test[] result = new Test[tests.size()];
@@ -66,6 +72,7 @@ public class TestDAOImpl implements TestDAO {
 			conn = connectionPool.getConnection();
 	         
 	         if(conn == null) {
+	        	 logger.error("Can not get connection");
 	        	 throw new DAOException("Connection failed...");
 	         }
 	         
@@ -80,6 +87,7 @@ public class TestDAOImpl implements TestDAO {
 	         System.out.println("Generated key: " + testId);
 		}
 		catch(Exception e) {
+			logger.error("Error while executin query");
 			throw new DAOException(e.getMessage());
 		}
 		finally {
@@ -87,7 +95,7 @@ public class TestDAOImpl implements TestDAO {
 				connectionPool.closeConnection(conn);
 			}
 			catch(Exception ex) {
-				
+				logger.error("Can not close connection");
 			}
 		}
 		return testId;
@@ -101,6 +109,7 @@ public class TestDAOImpl implements TestDAO {
 			conn = connectionPool.getConnection();
 	         
 	         if(conn == null) {
+	        	 logger.error("Can not get connection");
 	        	 throw new DAOException("Connection failed...");
 	         }
 	         
@@ -113,11 +122,14 @@ public class TestDAOImpl implements TestDAO {
 	         while(rs.next()) {
 	        	 Test test = new Test();
 	        	 test.setName(rs.getString("name"));
-	        	 tests.add(test);
-	        	 
+	        	 test.setId(rs.getInt("test_id"));
+	        	 test.setSubjectFieldId(rs.getInt("subject_field_subject_field_id"));
+	        	 test.setUserId(rs.getInt("User_user_id"));
+	        	 tests.add(test); 
 	         }
 		}
 		catch(Exception e) {
+			logger.error("Error");
 			throw new DAOException("Connection failed...");
 		}
 		finally {
@@ -169,6 +181,37 @@ public class TestDAOImpl implements TestDAO {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public boolean deleteTest(int testId) throws DAOException {
+		Connection conn = null;
+		try {
+			conn = connectionPool.getConnection();
+	         
+	         if(conn == null) {
+	        	 logger.error("Can not get connection");
+	        	 throw new DAOException("Connection failed...");
+	         }
+	         
+	         Statement stm = conn.createStatement();
+	         String query = "DELETE FROM tests WHERE test_id=" + testId;
+	         System.out.println(query);
+	         stm.executeUpdate(query);
+		}
+		catch(Exception e) {
+			logger.error("Error while executin query");
+			throw new DAOException(e.getMessage());
+		}
+		finally {
+			try {
+				connectionPool.closeConnection(conn);
+			}
+			catch(Exception ex) {
+				logger.error("Can not close connection");
+			}
+		}
+		return true;
 	}
 
 }

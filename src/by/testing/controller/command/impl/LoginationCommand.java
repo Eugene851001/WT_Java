@@ -14,6 +14,8 @@ import by.testing.controller.command.*;
 import by.testing.service.*;
 import by.testing.beans.*;
 
+import by.testing.constants.*;
+
 public class LoginationCommand implements Command {
 	
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -46,7 +48,7 @@ public class LoginationCommand implements Command {
 					
 				}
 				session.setAttribute("tests", Arrays.asList(tests));
-				dispatcher = request.getRequestDispatcher("\\WEB-INF\\jsp\\main_student.jsp");
+				dispatcher = request.getRequestDispatcher(PageConstants.STUDENT_MAIN_PAGE);
 			}
 			else {
 				try {
@@ -56,10 +58,11 @@ public class LoginationCommand implements Command {
 					e.printStackTrace();
 				}
 				session.setAttribute("tests", Arrays.asList(tests));
-				dispatcher = request.getRequestDispatcher("\\WEB-INF\\jsp\\main_tutor.jsp");
+				dispatcher = request.getRequestDispatcher(PageConstants.TUTOR_MAIN_PAGE);
 			}
 			session.setAttribute("user_type", user.getUserType());
 			session.setAttribute("user", user);
+			session.setAttribute("locale", "ru");
 			try {
 				dispatcher.forward(request, response);
 			} catch (Exception e) {

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpSession;
 
 import by.testing.controller.command.*;
 
+import by.testing.constants.*;
+
 public class GoToLoginationCommand implements Command{
 
 	@Override
@@ -17,7 +19,7 @@ public class GoToLoginationCommand implements Command{
 		HttpSession session  = request.getSession(false);
 		RequestDispatcher dispatcher = null;
 		if(session == null || session.getAttribute("user_type") == null) {
-			dispatcher = request.getRequestDispatcher("\\WEB-INF\\jsp\\logination.jsp");
+			dispatcher = request.getRequestDispatcher(PageConstants.LOGIN_PAGE);
 			try {
 				dispatcher.forward(request, response);
 			} catch (ServletException | IOException e) {

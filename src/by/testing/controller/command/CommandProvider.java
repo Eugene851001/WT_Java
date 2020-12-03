@@ -20,6 +20,11 @@ public class CommandProvider {
 		commands.put("go_to_question_constructor", new GoToQuestionConstructorCommand());
 		commands.put("add_question", new AddQuestionCommand());
 		commands.put("edit_test", new EditTestCommand());
+		commands.put("change_locale", new ChangeLocalCommand());
+		commands.put("start_test", new StartTestCommand());
+		commands.put("go_to_next_question", new NextQuestionCommand());
+		commands.put("go_to_student_main", new GoToStudentMainCommand());
+		commands.put("delete_test", new DeleteTestCommand());
 	}
 	
 	public Command getCommand(String commandName) {
